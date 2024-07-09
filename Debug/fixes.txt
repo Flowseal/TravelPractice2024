@@ -20,3 +20,6 @@ BookingService.cs:
 128: исправлен отрицательный штраф и погрешность при расчёте
 131: Округление, чтобы не было такого: Cancelation penalty 833,333333333333333333
 151: Неправильный расчёт стоимости. currencyRate ничего общего с дискаунтом не имеет
+
+
+https://docs.google.com/document/d/1N-dHesGqyG4Cm60r21wFvfFn84Bm2HBWT2EVFCDpr9Q/edit
