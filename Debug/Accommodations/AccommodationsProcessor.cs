@@ -62,14 +62,14 @@ public static class AccommodationsProcessor
                 if ( !DateTime.TryParse( parts[ 3 ], out StartDate )
                     || !DateTime.TryParse( parts[ 4 ], out EndDate ) )
                 {
-                    throw new ArgumentException( $"DateTime parsing error" );
+                    throw new ArgumentException( "DateTime parsing error." );
                 }
 
                 // FIX: Кастомизировал ошибку неправильного ввода валюты
                 CurrencyDto currency;
                 if ( !Enum.TryParse( parts[ 5 ], true, out currency ) )
                 {
-                    throw new ArgumentException( $"{parts[ 5 ]} is not a valid currency" );
+                    throw new ArgumentException( $"{parts[ 5 ]} is not a valid currency." );
                 }
 
                 BookingDto bookingDto = new()
@@ -153,7 +153,7 @@ public static class AccommodationsProcessor
                 if ( !DateTime.TryParse( parts[ 1 ], out startDate )
                     || !DateTime.TryParse( parts[ 2 ], out endDate ) )
                 {
-                    throw new ArgumentException( "DateTime parsing error" );
+                    throw new ArgumentException( "DateTime parsing error." );
                 }
 
                 string categoryName = parts[ 3 ];
