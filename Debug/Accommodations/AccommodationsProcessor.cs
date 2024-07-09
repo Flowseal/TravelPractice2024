@@ -142,9 +142,10 @@ public static class AccommodationsProcessor
                 break;
 
             case "search":
-                if ( parts.Length != 4 )
+                // FIX: Возможность поиска с опциональной категорией
+                if ( parts.Length < 3 || parts.Length > 4 )
                 {
-                    Console.WriteLine( "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> <CategoryName>'" );
+                    Console.WriteLine( "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> [CategoryName]'" );
                     return;
                 }
 
@@ -156,7 +157,7 @@ public static class AccommodationsProcessor
                     throw new ArgumentException( "DateTime parsing error." );
                 }
 
-                string categoryName = parts[ 3 ];
+                string categoryName = parts.Length > 3 ? parts[ 3 ] : "";
                 SearchBookingsCommand searchCommand = new( _bookingService, startDate, endDate, categoryName );
                 searchCommand.Execute();
                 break;
