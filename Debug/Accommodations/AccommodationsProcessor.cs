@@ -1,4 +1,4 @@
-using System.Globalization;
+п»їusing System.Globalization;
 using Accommodations.Commands;
 using Accommodations.Dto;
 
@@ -49,7 +49,7 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                // FIX: Неправильный ввод айди пользователя теперь не завершает аварийно приложение
+                // FIX: РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ РІРІРѕРґ Р°Р№РґРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ С‚РµРїРµСЂСЊ РЅРµ Р·Р°РІРµСЂС€Р°РµС‚ Р°РІР°СЂРёР№РЅРѕ РїСЂРёР»РѕР¶РµРЅРёРµ 
                 int userId;
                 if ( !int.TryParse( parts[ 1 ], out userId ) )
                 {
@@ -57,7 +57,7 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                // FIX: Неправильный ввод даты теперь не завершает аварийно приложение
+                // FIX: РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ РІРІРѕРґ РґР°С‚С‹ С‚РµРїРµСЂСЊ РЅРµ Р·Р°РІРµСЂС€Р°РµС‚ Р°РІР°СЂРёР№РЅРѕ РїСЂРёР»РѕР¶РµРЅРёРµ (РґР°Р»РµРµ - РѕР±СЂР°Р±РѕС‚РєР° РїР°СЂСЃРёРЅРіР°)
                 DateTime StartDate, EndDate;
                 if ( !DateTime.TryParse( parts[ 3 ], out StartDate )
                     || !DateTime.TryParse( parts[ 4 ], out EndDate ) )
@@ -65,7 +65,7 @@ public static class AccommodationsProcessor
                     throw new ArgumentException( "DateTime parsing error." );
                 }
 
-                // FIX: Кастомизировал ошибку неправильного ввода валюты
+                // FIX: РљР°СЃС‚РѕРјРёР·РёСЂРѕРІР°Р» РѕС€РёР±РєСѓ РЅРµРїСЂР°РІРёР»СЊРЅРѕРіРѕ РІРІРѕРґР° РІР°Р»СЋС‚С‹
                 CurrencyDto currency;
                 if ( !Enum.TryParse( parts[ 5 ], true, out currency ) )
                 {
@@ -94,7 +94,7 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                // FIX: Обработка парсинга
+                // FIX: РћР±СЂР°Р±РѕС‚РєР° РїР°СЂСЃРёРЅРіР°
                 Guid bookingId;
                 if ( !Guid.TryParse( parts[ 1 ], out bookingId ) )
                 {
@@ -109,7 +109,7 @@ public static class AccommodationsProcessor
                 break;
 
             case "undo":
-                // FIX: undo без команд теперь не завершает аварийно приложение
+                // FIX: undo Р±РµР· РєРѕРјР°РЅРґ С‚РµРїРµСЂСЊ РЅРµ Р·Р°РІРµСЂС€Р°РµС‚ Р°РІР°СЂРёР№РЅРѕ РїСЂРёР»РѕР¶РµРЅРёРµ
                 if ( _executedCommands.Count == 0 )
                 {
                     Console.WriteLine( "No commands to undo." );
@@ -129,7 +129,7 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                // FIX: Обработка парсинга
+                // FIX: РћР±СЂР°Р±РѕС‚РєР° РїР°СЂСЃРёРЅРіР°
                 Guid id;
                 if ( !Guid.TryParse( parts[ 1 ], out id ) )
                 {
@@ -142,14 +142,14 @@ public static class AccommodationsProcessor
                 break;
 
             case "search":
-                // FIX: Возможность поиска с опциональной категорией
+                // FIX: Р’РѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРѕРёСЃРєР° СЃ РѕРїС†РёРѕРЅР°Р»СЊРЅРѕР№ РєР°С‚РµРіРѕСЂРёРµР№
                 if ( parts.Length < 3 || parts.Length > 4 )
                 {
                     Console.WriteLine( "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> [CategoryName]'" );
                     return;
                 }
 
-                // FIX: Обработка парсинга
+                // FIX: РћР±СЂР°Р±РѕС‚РєР° РїР°СЂСЃРёРЅРіР°
                 DateTime startDate, endDate;
                 if ( !DateTime.TryParse( parts[ 1 ], out startDate )
                     || !DateTime.TryParse( parts[ 2 ], out endDate ) )

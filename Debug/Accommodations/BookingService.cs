@@ -1,4 +1,4 @@
-using Accommodations.Models;
+п»їusing Accommodations.Models;
 
 namespace Accommodations;
 
@@ -23,13 +23,13 @@ public class BookingService : IBookingService
 
     public Booking Book( int userId, string categoryName, DateTime startDate, DateTime endDate, Currency currency )
     {
-        // FIX: Нельзя забронировать номер в прошлое
+        // FIX: РќРµР»СЊР·СЏ Р·Р°Р±СЂРѕРЅРёСЂРѕРІР°С‚СЊ РЅРѕРјРµСЂ РІ РїСЂРѕС€Р»РѕРµ
         if ( startDate <= DateTime.Now )
         {
             throw new ArgumentException( "Start date must be later than now" );
         }
 
-        // FIX: startDate == endDate не может быть
+        // FIX: startDate == endDate РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ
         if ( endDate <= startDate )
         {
             throw new ArgumentException( "End date must be later than start date" );
@@ -108,7 +108,7 @@ public class BookingService : IBookingService
 
         query = query.Where( b => b.StartDate >= startDate );
 
-        query = query.Where( b => b.EndDate <= endDate ); // FIX: inclusive search range
+        query = query.Where( b => b.EndDate <= endDate ); // FIX: inclusive date search range
 
         if ( !string.IsNullOrEmpty( categoryName ) )
         {
@@ -125,10 +125,10 @@ public class BookingService : IBookingService
             throw new ArgumentException( "Start date cannot be earlier than now date" );
         }
 
-        // FIX: исправлен отрицательный штраф и погрешность при расчёте
+        // FIX: РёСЃРїСЂР°РІР»РµРЅ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Р№ С€С‚СЂР°С„ Рё РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ РїСЂРё СЂР°СЃС‡С‘С‚Рµ
         int daysBeforeArrival = 1 + ( booking.StartDate - DateTime.Now ).Days;
 
-        // FIX: Округление, чтобы не было такого: Cancelation penalty 833,333333333333333333
+        // FIX: РћРєСЂСѓРіР»РµРЅРёРµ, С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ С‚Р°РєРѕРіРѕ: Cancelation penalty 833,333333333333333333
         return Decimal.Round( 5000.0m / daysBeforeArrival, 2 );
     }
 
@@ -148,7 +148,7 @@ public class BookingService : IBookingService
 
     private static decimal CalculateBookingCost( decimal baseRate, int days, int userId, decimal currencyRate )
     {
-        // FIX: Неправильный расчёт стоимости. currencyRate ничего общего с дискаунтом не имеет
+        // FIX: РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°СЃС‡С‘С‚ СЃС‚РѕРёРјРѕСЃС‚Рё. currencyRate РЅРёС‡РµРіРѕ РѕР±С‰РµРіРѕ СЃ РґРёСЃРєР°СѓРЅС‚РѕРј РЅРµ РёРјРµРµС‚
         decimal cost = baseRate / currencyRate * days;
         decimal totalCost = cost - cost * CalculateDiscount( userId );
         return totalCost;
