@@ -49,14 +49,27 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                CurrencyDto currency = ( CurrencyDto )Enum.Parse( typeof( CurrencyDto ), parts[ 5 ], true );
+                // FIX: Ќеправильный ввод даты теперь не завершает аварийно приложение
+                DateTime StartDate, EndDate;
+                if ( !DateTime.TryParse( parts[ 3 ], out StartDate )
+                    || !DateTime.TryParse( parts[ 4 ], out EndDate ) )
+                {
+                    throw new ArgumentException( $"DateTime parsing error" );
+                }
+
+                // FIX:  астомизировал ошибку неправильного ввода валюты
+                CurrencyDto currency;
+                if ( !Enum.TryParse( parts[ 5 ], true, out currency ) )
+                {
+                    throw new ArgumentException( $"{parts[ 5 ]} is not a valid currency" );
+                }
 
                 BookingDto bookingDto = new()
                 {
                     UserId = int.Parse( parts[ 1 ] ),
                     Category = parts[ 2 ],
-                    StartDate = DateTime.Parse( parts[ 3 ] ),
-                    EndDate = DateTime.Parse( parts[ 4 ] ),
+                    StartDate = StartDate,
+                    EndDate = EndDate,
                     Currency = currency,
                 };
 
@@ -81,6 +94,13 @@ public static class AccommodationsProcessor
                 break;
 
             case "undo":
+                // FIX: undo без команд теперь не завершает аварийно приложение
+                if ( _executedCommands.Count == 0 )
+                {
+                    Console.WriteLine( "No commands to undo." );
+                    return;
+                }
+
                 _executedCommands[ s_commandIndex ].Undo();
                 _executedCommands.Remove( s_commandIndex );
                 s_commandIndex--;
