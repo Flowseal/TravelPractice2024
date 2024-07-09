@@ -23,9 +23,16 @@ public class BookingService : IBookingService
 
     public Booking Book( int userId, string categoryName, DateTime startDate, DateTime endDate, Currency currency )
     {
-        if ( endDate < startDate )
+        // FIX: Нельзя забронировать номер в прошлое
+        if ( startDate <= DateTime.Now )
         {
-            throw new ArgumentException( "End date cannot be earlier than start date" );
+            throw new ArgumentException( "Start date must be later than now" );
+        }
+
+        // FIX: startDate == endDate не может быть
+        if ( endDate <= startDate )
+        {
+            throw new ArgumentException( "End date must be later than start date" );
         }
 
         RoomCategory? selectedCategory = _categories.FirstOrDefault( c => c.Name == categoryName );
@@ -101,7 +108,7 @@ public class BookingService : IBookingService
 
         query = query.Where( b => b.StartDate >= startDate );
 
-        query = query.Where( b => b.EndDate < endDate );
+        query = query.Where( b => b.EndDate <= endDate ); // FIX: inclusive search range
 
         if ( !string.IsNullOrEmpty( categoryName ) )
         {
@@ -118,9 +125,11 @@ public class BookingService : IBookingService
             throw new ArgumentException( "Start date cannot be earlier than now date" );
         }
 
-        int daysBeforeArrival = ( DateTime.Now - booking.StartDate ).Days;
+        // FIX: исправлен отрицательный штраф и погрешность при расчёте
+        int daysBeforeArrival = 1 + ( booking.StartDate - DateTime.Now ).Days;
 
-        return 5000.0m / daysBeforeArrival;
+        // FIX: Округление, чтобы не было такого: Cancelation penalty 833,333333333333333333
+        return Decimal.Round( 5000.0m / daysBeforeArrival, 2 );
     }
 
     private static decimal GetCurrencyRate( Currency currency )
@@ -139,8 +148,9 @@ public class BookingService : IBookingService
 
     private static decimal CalculateBookingCost( decimal baseRate, int days, int userId, decimal currencyRate )
     {
-        decimal cost = baseRate * days;
-        decimal totalCost = cost - cost * CalculateDiscount( userId ) * currencyRate;
+        // FIX: Неправильный расчёт стоимости. currencyRate ничего общего с дискаунтом не имеет
+        decimal cost = baseRate / currencyRate * days;
+        decimal totalCost = cost - cost * CalculateDiscount( userId );
         return totalCost;
     }
 }

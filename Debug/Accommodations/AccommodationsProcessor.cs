@@ -49,6 +49,14 @@ public static class AccommodationsProcessor
                     return;
                 }
 
+                // FIX: Неправильный ввод айди пользователя теперь не завершает аварийно приложение
+                int userId;
+                if ( !int.TryParse( parts[ 1 ], out userId ) )
+                {
+                    Console.WriteLine( "UserId parsing error" );
+                    return;
+                }
+
                 // FIX: Неправильный ввод даты теперь не завершает аварийно приложение
                 DateTime StartDate, EndDate;
                 if ( !DateTime.TryParse( parts[ 3 ], out StartDate )
@@ -66,7 +74,7 @@ public static class AccommodationsProcessor
 
                 BookingDto bookingDto = new()
                 {
-                    UserId = int.Parse( parts[ 1 ] ),
+                    UserId = userId,
                     Category = parts[ 2 ],
                     StartDate = StartDate,
                     EndDate = EndDate,
@@ -86,7 +94,14 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                Guid bookingId = Guid.Parse( parts[ 1 ] );
+                // FIX: Обработка парсинга
+                Guid bookingId;
+                if ( !Guid.TryParse( parts[ 1 ], out bookingId ) )
+                {
+                    Console.WriteLine( "BookingId parsing error." );
+                    return;
+                }
+
                 CancelBookingCommand cancelCommand = new( _bookingService, bookingId );
                 cancelCommand.Execute();
                 _executedCommands.Add( ++s_commandIndex, cancelCommand );
@@ -113,7 +128,15 @@ public static class AccommodationsProcessor
                     Console.WriteLine( "Invalid arguments for 'find'. Expected format: 'find <BookingId>'" );
                     return;
                 }
-                Guid id = Guid.Parse( parts[ 1 ] );
+
+                // FIX: Обработка парсинга
+                Guid id;
+                if ( !Guid.TryParse( parts[ 1 ], out id ) )
+                {
+                    Console.WriteLine( "Id parsing error." );
+                    return;
+                }
+
                 FindBookingByIdCommand findCommand = new( _bookingService, id );
                 findCommand.Execute();
                 break;
@@ -124,8 +147,15 @@ public static class AccommodationsProcessor
                     Console.WriteLine( "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> <CategoryName>'" );
                     return;
                 }
-                DateTime startDate = DateTime.Parse( parts[ 1 ] );
-                DateTime endDate = DateTime.Parse( parts[ 2 ] );
+
+                // FIX: Обработка парсинга
+                DateTime startDate, endDate;
+                if ( !DateTime.TryParse( parts[ 1 ], out startDate )
+                    || !DateTime.TryParse( parts[ 2 ], out endDate ) )
+                {
+                    throw new ArgumentException( "DateTime parsing error" );
+                }
+
                 string categoryName = parts[ 3 ];
                 SearchBookingsCommand searchCommand = new( _bookingService, startDate, endDate, categoryName );
                 searchCommand.Execute();
