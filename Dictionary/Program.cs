@@ -68,7 +68,7 @@ void LoadDictionary()
     }
 }
 
-bool EditDictionary( string original )
+bool EditDictionaryTranslation( string original )
 {
     Console.Write( "Перевод: " );
     string translate = Console.ReadLine().Trim().ToLower();
@@ -113,7 +113,7 @@ void StartWordsTranslating()
         if ( !dictionary.ContainsKey( original ) )
         {
             Console.WriteLine( "Перевод не найден; добавьте перевод или пропустите, введя пустую строку." );
-            if ( EditDictionary( original ) )
+            if ( EditDictionaryTranslation( original ) )
             {
                 SaveDictionary();
             }
@@ -148,7 +148,7 @@ void AddOrEditWords()
             {
                 case 1: // Изменить
                     {
-                        EditDictionary( original );
+                        EditDictionaryTranslation( original );
                         break;
                     }
                 case 2: // Удалить
@@ -166,7 +166,7 @@ void AddOrEditWords()
         }
         else
         {
-            EditDictionary( original );
+            EditDictionaryTranslation( original );
         }
     }
 }
