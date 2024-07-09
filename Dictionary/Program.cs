@@ -24,7 +24,7 @@ void PrintEditMenu()
         """ );
 }
 
-int MenuChoice()
+int ReadMenuChoice()
 {
     int choice;
     while ( !int.TryParse( Console.ReadLine(), out choice ) )
@@ -95,7 +95,7 @@ bool EditDictionary( string original )
     return true;
 }
 
-void WordsTranslating()
+void StartWordsTranslating()
 {
     Console.WriteLine( "\nВведите слово для перевода" );
     Console.WriteLine( "Для выхода введите пустую строку" );
@@ -144,7 +144,7 @@ void AddOrEditWords()
         {
             PrintEditMenu();
 
-            switch ( MenuChoice() )
+            switch ( ReadMenuChoice() )
             {
                 case 1: // Изменить
                     {
@@ -179,11 +179,12 @@ void DictionaryLoop()
     while ( true )
     {
         PrintMainMenu();
-        switch ( MenuChoice() )
+
+        switch ( ReadMenuChoice() )
         {
             case 1:
                 {
-                    WordsTranslating();
+                    StartWordsTranslating();
                     break;
                 }
             case 2:
