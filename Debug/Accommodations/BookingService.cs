@@ -81,7 +81,7 @@ public class BookingService : IBookingService
             throw new ArgumentException( $"Booking with id: '{bookingId}' does not exist" );
         }
 
-        if ( booking.StartDate <= DateTime.Now )
+        if ( booking.StartDate < DateTime.Now ) // FIX: Нельзя отменить бронь в день заезда. Но возможно стоит проверять разницу дней (чтобы она была >= 1), на случай, если в booking.StartDate попадёт дата со временем?
         {
             throw new ArgumentException( "Start date cannot be earlier than now date" );
         }
