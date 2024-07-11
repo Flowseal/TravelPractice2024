@@ -45,16 +45,14 @@ public static class AccommodationsProcessor
             case "book":
                 if ( parts.Length != 6 )
                 {
-                    Console.WriteLine( "Invalid number of arguments for booking." );
-                    return;
+                    throw new ArgumentException( "Invalid number of arguments for booking." );
                 }
 
                 // FIX: Неправильный ввод айди пользователя теперь не завершает аварийно приложение 
                 int userId;
                 if ( !int.TryParse( parts[ 1 ], out userId ) )
                 {
-                    Console.WriteLine( "UserId parsing error" );
-                    return;
+                    throw new ArgumentException( "UserId parsing error" );
                 }
 
                 // FIX: Неправильный ввод даты теперь не завершает аварийно приложение (далее - обработка парсинга)
@@ -90,16 +88,14 @@ public static class AccommodationsProcessor
             case "cancel":
                 if ( parts.Length != 2 )
                 {
-                    Console.WriteLine( "Invalid number of arguments for canceling." );
-                    return;
+                    throw new ArgumentException( "Invalid number of arguments for canceling." );
                 }
 
                 // FIX: Обработка парсинга
                 Guid bookingId;
                 if ( !Guid.TryParse( parts[ 1 ], out bookingId ) )
                 {
-                    Console.WriteLine( "BookingId parsing error." );
-                    return;
+                    throw new ArgumentException( "BookingId parsing error." );
                 }
 
                 CancelBookingCommand cancelCommand = new( _bookingService, bookingId );
@@ -112,8 +108,7 @@ public static class AccommodationsProcessor
                 // FIX: undo без команд теперь не завершает аварийно приложение
                 if ( _executedCommands.Count == 0 )
                 {
-                    Console.WriteLine( "No commands to undo." );
-                    return;
+                    throw new ArgumentException( "No commands to undo." );
                 }
 
                 _executedCommands[ s_commandIndex ].Undo();
@@ -125,16 +120,14 @@ public static class AccommodationsProcessor
             case "find":
                 if ( parts.Length != 2 )
                 {
-                    Console.WriteLine( "Invalid arguments for 'find'. Expected format: 'find <BookingId>'" );
-                    return;
+                    throw new ArgumentException( "Invalid arguments for 'find'. Expected format: 'find <BookingId>'" );
                 }
 
                 // FIX: Обработка парсинга
                 Guid id;
                 if ( !Guid.TryParse( parts[ 1 ], out id ) )
                 {
-                    Console.WriteLine( "Id parsing error." );
-                    return;
+                    throw new ArgumentException( "Id parsing error." );
                 }
 
                 FindBookingByIdCommand findCommand = new( _bookingService, id );
@@ -145,8 +138,7 @@ public static class AccommodationsProcessor
                 // FIX: Возможность поиска с опциональной категорией
                 if ( parts.Length < 3 || parts.Length > 4 )
                 {
-                    Console.WriteLine( "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> [CategoryName]'" );
-                    return;
+                    throw new ArgumentException( "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> [CategoryName]'" );
                 }
 
                 // FIX: Обработка парсинга
