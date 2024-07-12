@@ -100,8 +100,7 @@ SELECT * FROM dbo.rooms WHERE availability = 1;
 -- или, если забыть про атрибут availability
 SELECT * FROM dbo.rooms WHERE room_id NOT IN (
   SELECT room_id FROM dbo.bookings
-  WHERE check_in_date <= CAST(CURRENT_TIMESTAMP AS DATE)
-    AND check_out_date >= CAST(CURRENT_TIMESTAMP AS DATE)
+  WHERE CONVERT (DATE, GETDATE()) BETWEEN check_in_date AND check_out_date
 );
 
 -- Найдите всех клиентов, чьи фамилии начинаются с буквы "S".
@@ -120,6 +119,5 @@ WHERE rooms.room_number = '13';
 -- Найдите все номера, которые не забронированы на определенную дату.
 SELECT * FROM dbo.rooms WHERE room_id NOT IN (
   SELECT room_id FROM dbo.bookings
-  WHERE check_in_date <= '2024-07-08'
-    AND check_out_date >= '2024-07-08'
+  WHERE '2024-07-08' BETWEEN check_in_date AND check_out_date
 );
