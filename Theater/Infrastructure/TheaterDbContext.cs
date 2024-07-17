@@ -5,16 +5,17 @@ namespace Infrastructure;
 
 public class TheaterDbContext : DbContext
 {
-    public TheaterDbContext()
-        : base()
+    public TheaterDbContext( DbContextOptions<TheaterDbContext> options )
+        : base( options )
     {
     }
 
     protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
     {
-        base.OnConfiguring( optionsBuilder );
-
-        optionsBuilder.UseSqlServer( "Server=localhost\\SQLEXPRESS;Database=Theater;Trusted_Connection=True;TrustServerCertificate=True;" );
+        if ( !optionsBuilder.IsConfigured )
+        {
+            optionsBuilder.UseSqlServer( "Server=localhost\\SQLEXPRESS;Database=Theater;Trusted_Connection=True;TrustServerCertificate=True;" );
+        }
     }
 
     protected override void OnModelCreating( ModelBuilder modelBuilder )

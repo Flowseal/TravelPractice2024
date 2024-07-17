@@ -31,11 +31,11 @@ internal class TheaterConfiguration : IEntityTypeConfiguration<Theater>
                .IsRequired();
 
         builder.HasMany( t => t.BusinessHours )
-               .WithOne()
+               .WithOne( bh => bh.Theater )
                .HasForeignKey( bh => bh.TheaterId );
 
         builder.HasMany( t => t.Plays )
-               .WithOne()
+               .WithOne( p => p.Theater )
                .HasForeignKey( p => p.TheaterId );
     }
 }

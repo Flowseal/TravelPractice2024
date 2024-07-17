@@ -19,7 +19,7 @@ internal class AuthorConfiguration : IEntityTypeConfiguration<Author>
                .IsRequired();
 
         builder.HasMany( a => a.Compositions )
-               .WithOne()
+               .WithOne( c => c.Author )
                .HasForeignKey( c => c.AuthorId );
     }
 }

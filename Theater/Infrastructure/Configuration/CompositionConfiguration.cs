@@ -24,7 +24,7 @@ internal class CompositionConfiguration : IEntityTypeConfiguration<Composition>
                .IsRequired();
 
         builder.HasMany( c => c.Plays )
-               .WithOne()
+               .WithOne( p => p.Composition )
                .HasForeignKey( p => p.CompositionId );
     }
 }

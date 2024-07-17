@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Implementations;
 
@@ -29,18 +30,6 @@ public class TheaterRepository : Repository<Theater>, ITheaterRepository
         }
 
         existingTheater.Update( theater );
-        return true;
-    }
-
-    public bool Delete( int id )
-    {
-        Theater existingTheater = GetById( id );
-        if ( existingTheater is null )
-        {
-            return false;
-        }
-
-        Remove( existingTheater );
         return true;
     }
 }

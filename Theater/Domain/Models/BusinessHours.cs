@@ -24,6 +24,8 @@ public class BusinessHours
     public DateOnly? ValidThrough { get; private init; }
 
     public int TheaterId { get; private init; }
+
+    [System.Text.Json.Serialization.JsonIgnore]
     public Theater Theater { get; private init; }
 
     public BusinessHours( byte day, TimeSpan openTime, TimeSpan closeTime, int theaterId,

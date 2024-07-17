@@ -9,7 +9,10 @@ public class Theater
     public string Description { get; private set; }
     public string PhoneNumber { get; private set; }
 
+    [System.Text.Json.Serialization.JsonIgnore]
     public List<BusinessHours> BusinessHours { get; private init; } = new List<BusinessHours>();
+
+    [System.Text.Json.Serialization.JsonIgnore]
     public List<Play> Plays { get; private init; } = new List<Play>();
 
     public Theater( string name, DateTime openingDate, string address, string description, string phoneNumber )
