@@ -21,15 +21,15 @@ public class TheaterRepository : Repository<Theater>, ITheaterRepository
         return Entities.FirstOrDefault( t => t.Id == id );
     }
 
-    public bool Update( int id, Theater theater )
+    public Theater Update( int id, Theater theater )
     {
         Theater existingTheater = GetById( id );
         if ( existingTheater is null )
         {
-            return false;
+            return null;
         }
 
         existingTheater.Update( theater );
-        return true;
+        return existingTheater;
     }
 }

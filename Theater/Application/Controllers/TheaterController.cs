@@ -70,8 +70,8 @@ public class TheaterController : ControllerBase
 
         Theater updateTheater = new( theater.Name, existingTheater.OpeningDate, existingTheater.Address, theater.Description, theater.PhoneNumber );
 
-        _theaterRepository.Update( id, updateTheater );
+        existingTheater = _theaterRepository.Update( id, updateTheater );
         _theaterRepository.SaveChanges();
-        return Ok();
+        return Ok( existingTheater );
     }
 }
