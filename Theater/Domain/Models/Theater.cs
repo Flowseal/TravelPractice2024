@@ -10,8 +10,7 @@ public class Theater
     public string PhoneNumber { get; private set; }
 
     public List<BusinessHours> BusinessHours { get; private init; } = new List<BusinessHours>();
-
-    // TODO plays list
+    public List<Play> Plays { get; private init; } = new List<Play>();
 
     public Theater( string name, DateTime openingDate, string address, string description, string phoneNumber )
     {
@@ -20,5 +19,23 @@ public class Theater
         Address = address;
         Description = description;
         PhoneNumber = phoneNumber;
+    }
+
+    public void Update( Theater theater )
+    {
+        if ( !String.IsNullOrWhiteSpace( theater.Name ) )
+        {
+            Name = theater.Name;
+        }
+
+        if ( !String.IsNullOrWhiteSpace( theater.Description ) )
+        {
+            Description = theater.Description;
+        }
+
+        if ( !String.IsNullOrWhiteSpace( theater.PhoneNumber ) )
+        {
+            PhoneNumber = theater.PhoneNumber;
+        }
     }
 }

@@ -19,21 +19,23 @@ internal class TheaterConfiguration : IEntityTypeConfiguration<Theater>
                .IsRequired();
 
         builder.Property( t => t.Address )
-               .HasMaxLength( 100 )
+               .HasMaxLength( 150 )
                .IsRequired();
 
         builder.Property( t => t.Description )
-              .HasMaxLength( 250 )
-              .IsRequired();
-
-        builder.Property( t => t.PhoneNumber )
-               .HasMaxLength( 100 )
+               .HasMaxLength( 250 )
                .IsRequired();
 
-        // TODO plays
+        builder.Property( t => t.PhoneNumber )
+               .HasMaxLength( 20 )
+               .IsRequired();
 
         builder.HasMany( t => t.BusinessHours )
                .WithOne()
                .HasForeignKey( bh => bh.TheaterId );
+
+        builder.HasMany( t => t.Plays )
+               .WithOne()
+               .HasForeignKey( p => p.TheaterId );
     }
 }

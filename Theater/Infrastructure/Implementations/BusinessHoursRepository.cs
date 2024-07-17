@@ -25,5 +25,4 @@ public class BusinessHoursRepository : Repository<BusinessHours>, IBusinessHours
     {
         return Entities.FirstOrDefault( bh => bh.Id == id );
     }
-
 }

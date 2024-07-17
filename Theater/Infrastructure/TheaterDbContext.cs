@@ -20,5 +20,11 @@ public class TheaterDbContext : DbContext
     protected override void OnModelCreating( ModelBuilder modelBuilder )
     {
         base.OnModelCreating( modelBuilder );
+
+        modelBuilder.ApplyConfiguration( new AuthorConfiguration() );
+        modelBuilder.ApplyConfiguration( new CompositionConfiguration() );
+        modelBuilder.ApplyConfiguration( new BusinessHoursConfiguration() );
+        modelBuilder.ApplyConfiguration( new PlayConfiguration() );
+        modelBuilder.ApplyConfiguration( new TheaterConfiguration() );
     }
 }

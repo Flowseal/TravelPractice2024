@@ -6,4 +6,6 @@ public interface ITheaterRepository : IRepository<Theater>
 {
     public List<Theater> GetAll();
     public Theater GetById( int id );
+    public bool Update( int id, Theater theater );
+    public bool Delete( int id );
 }

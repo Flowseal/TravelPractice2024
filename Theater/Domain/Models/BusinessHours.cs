@@ -20,18 +20,19 @@ public class BusinessHours
     public byte Day { get; private init; }
     public TimeSpan OpenTime { get; private init; }
     public TimeSpan CloseTime { get; private init; }
-    public DateTime? ValidFrom { get; private init; }
-    public DateTime? ValidThrough { get; private init; }
+    public DateOnly? ValidFrom { get; private init; }
+    public DateOnly? ValidThrough { get; private init; }
 
-    public int TheaterId { get; private set; }
-    public Theater Theater { get; private set; }
+    public int TheaterId { get; private init; }
+    public Theater Theater { get; private init; }
 
-    public BusinessHours( byte day, TimeSpan openTime, TimeSpan closeTime,
-        DateTime? validFrom = null, DateTime? validThrough = null )
+    public BusinessHours( byte day, TimeSpan openTime, TimeSpan closeTime, int theaterId,
+        DateOnly? validFrom = null, DateOnly? validThrough = null )
     {
         Day = day;
         OpenTime = openTime;
         CloseTime = closeTime;
+        TheaterId = theaterId;
         ValidFrom = validFrom;
         ValidThrough = validThrough;
     }

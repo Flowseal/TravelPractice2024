@@ -13,8 +13,10 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Configuration\" />
-    <Folder Include="Implementations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
