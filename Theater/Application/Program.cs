@@ -18,7 +18,7 @@ builder.Services.AddScoped<IPlayRepository, PlayRepository>();
 builder.Services.AddDbContext<TheaterDbContext>( options =>
 {
     string connectionString = builder.Configuration.GetConnectionString( "Theater" );
-    options.UseSqlServer( connectionString );
+    options.UseSqlServer( connectionString, x => x.MigrationsAssembly( "Infrastructure.Migrations" ) );
 } );
 
 builder.Services.AddControllers().AddJsonOptions( options =>
