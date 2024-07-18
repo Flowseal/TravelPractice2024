@@ -34,9 +34,4 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         Entities.RemoveRange( entities );
     }
-
-    public void SaveChanges()
-    {
-        _context.SaveChanges();
-    }
 }

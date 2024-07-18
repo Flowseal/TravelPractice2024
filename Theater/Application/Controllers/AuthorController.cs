@@ -11,10 +11,12 @@ namespace Application.Controllers;
 public class AuthorController : ControllerBase
 {
     private readonly IAuthorRepository _authorRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AuthorController( IAuthorRepository authorRepository )
+    public AuthorController( IAuthorRepository authorRepository, IUnitOfWork unitOfWork )
     {
         _authorRepository = authorRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
@@ -41,7 +43,7 @@ public class AuthorController : ControllerBase
     {
         Author newAuthor = new( author.Name, author.BirthDate );
         _authorRepository.Add( newAuthor );
-        _authorRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
 
         return Ok( newAuthor );
     }
@@ -56,7 +58,7 @@ public class AuthorController : ControllerBase
         }
 
         _authorRepository.Remove( author );
-        _authorRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
         return Ok();
     }
 }

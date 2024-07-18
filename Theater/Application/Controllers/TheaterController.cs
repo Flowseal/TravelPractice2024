@@ -10,10 +10,12 @@ namespace Application.Controllers;
 public class TheaterController : ControllerBase
 {
     private readonly ITheaterRepository _theaterRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public TheaterController( ITheaterRepository theaterRepository )
+    public TheaterController( ITheaterRepository theaterRepository, IUnitOfWork unitOfWork )
     {
         _theaterRepository = theaterRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
@@ -40,7 +42,7 @@ public class TheaterController : ControllerBase
     {
         Theater newTheater = new( theater.Name, theater.OpeningDate, theater.Address, theater.Description, theater.PhoneNumber );
         _theaterRepository.Add( newTheater );
-        _theaterRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
 
         return Ok( newTheater );
     }
@@ -55,7 +57,7 @@ public class TheaterController : ControllerBase
         }
 
         _theaterRepository.Remove( theater );
-        _theaterRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
         return Ok();
     }
 
@@ -71,7 +73,7 @@ public class TheaterController : ControllerBase
         Theater updateTheater = new( theater.Name, existingTheater.OpeningDate, existingTheater.Address, theater.Description, theater.PhoneNumber );
 
         existingTheater = _theaterRepository.Update( id, updateTheater );
-        _theaterRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
         return Ok( existingTheater );
     }
 }

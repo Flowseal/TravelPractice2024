@@ -11,10 +11,12 @@ namespace Application.Controllers;
 public class BusinessHoursController : ControllerBase
 {
     private readonly IBusinessHoursRepository _businessHoursRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public BusinessHoursController( IBusinessHoursRepository businessHoursRepository )
+    public BusinessHoursController( IBusinessHoursRepository businessHoursRepository, IUnitOfWork unitOfWork )
     {
         _businessHoursRepository = businessHoursRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
@@ -48,7 +50,7 @@ public class BusinessHoursController : ControllerBase
     {
         BusinessHours newBusinessHours = new( businessHours.Day, businessHours.OpenTime, businessHours.CloseTime, businessHours.TheaterId, businessHours.ValidFrom, businessHours.ValidThrough );
         _businessHoursRepository.Add( newBusinessHours );
-        _businessHoursRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
 
         return Ok( newBusinessHours );
     }
@@ -63,7 +65,7 @@ public class BusinessHoursController : ControllerBase
         }
 
         _businessHoursRepository.Remove( businessHours );
-        _businessHoursRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
         return Ok();
     }
 }

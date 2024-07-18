@@ -11,10 +11,12 @@ namespace Application.Controllers;
 public class CompositionController : ControllerBase
 {
     private readonly ICompositionRepository _compositionRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CompositionController( ICompositionRepository compositionRepository )
+    public CompositionController( ICompositionRepository compositionRepository, IUnitOfWork unitOfWork )
     {
         _compositionRepository = compositionRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
@@ -41,7 +43,7 @@ public class CompositionController : ControllerBase
     {
         Composition newComposition = new( composition.Name, composition.Description, composition.CharactersInfo, composition.AuthorId );
         _compositionRepository.Add( newComposition );
-        _compositionRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
 
         return Ok( newComposition );
     }
@@ -56,7 +58,7 @@ public class CompositionController : ControllerBase
         }
 
         _compositionRepository.Remove( composition );
-        _compositionRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
         return Ok();
     }
 }

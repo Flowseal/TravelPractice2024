@@ -11,10 +11,12 @@ namespace Application.Controllers;
 public class PlayController : ControllerBase
 {
     private readonly IPlayRepository _playRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PlayController( IPlayRepository playRepository )
+    public PlayController( IPlayRepository playRepository, IUnitOfWork unitOfWork )
     {
         _playRepository = playRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
@@ -41,7 +43,7 @@ public class PlayController : ControllerBase
     {
         Play newPlay = new( play.Name, play.Description, play.StartDate, play.EndDate, play.Price, play.TheaterId, play.CompositionId );
         _playRepository.Add( newPlay );
-        _playRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
 
         return Ok( newPlay );
     }
@@ -56,7 +58,7 @@ public class PlayController : ControllerBase
         }
 
         _playRepository.Remove( play );
-        _playRepository.SaveChanges();
+        _unitOfWork.SaveChanges();
         return Ok();
     }
 

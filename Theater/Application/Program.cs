@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITheaterRepository, TheaterRepository>();
 builder.Services.AddScoped<IBusinessHoursRepository, BusinessHoursRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();

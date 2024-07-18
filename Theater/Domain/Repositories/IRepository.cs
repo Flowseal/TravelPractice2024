@@ -7,6 +7,4 @@ public interface IRepository<TEntity> where TEntity : class
 
     public void Remove( TEntity entity );
     public void Remove( IEnumerable<TEntity> entities );
-
-    public void SaveChanges();
 }
