@@ -1,4 +1,4 @@
-﻿namespace Application.Contracts;
+﻿namespace WebAPI.Contracts;
 
 public class CreatePlay
 {

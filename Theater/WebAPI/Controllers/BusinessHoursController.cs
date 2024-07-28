@@ -1,10 +1,10 @@
-﻿using Application.Contracts;
+﻿using WebAPI.Contracts;
 using Domain.Models;
 using Domain.Repositories;
 using Infrastructure.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers;
+namespace WebAPI.Controllers;
 
 [ApiController]
 [Route( "api/business_hours" )]
